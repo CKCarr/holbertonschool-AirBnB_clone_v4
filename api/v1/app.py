@@ -8,10 +8,9 @@ from models import storage
 from api.v1.views import app_views
 from flask_cors import CORS
 
-app = Flask(__name__)
 
-# Allow CORS for all routes on 0.0.0.0
-CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+app = Flask(__name__)
+CORS(app, resources={r"/api/v1/*": {"origins": "*"}})  # Updated CORS configuration
 
 # Register the blueprint app_views to the Flask instance app
 app.register_blueprint(app_views)
