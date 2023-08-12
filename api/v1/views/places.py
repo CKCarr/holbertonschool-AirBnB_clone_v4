@@ -84,7 +84,7 @@ def put_place(place_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+@app_views.route('/places_search/', methods=['POST'], strict_slashes=False)
 def places_search():
     """
     Retrieves all Place objects depending on the JSON in the body

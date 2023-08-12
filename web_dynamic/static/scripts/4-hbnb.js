@@ -21,7 +21,7 @@ $(document).ready(function() {
 });
 $(document).ready(function() {
     // execute a GET request to Status API
-    $.get('http://0.0.0.0:5001/api/v1/status/', function(data) {
+    $.get('http://localhost:5001/api/v1/status/', function(data) {
         // if the request is successful
         if (data.status === 'OK') {
             // add the class available to the DIV#api_status
@@ -60,36 +60,28 @@ $.ajax({
         }
     }
 });
-$('button').click(function () {
-$('.places > article').remove();
-$.ajax({
-    type: 'POST',
-    url: 'http://127.0.0.1:5001/api/v1/places_search/',
-    data: JSON.stringify({ amenities: Object.keys(checkAmen) }),
-    contentType: 'application/json',
-    success: function (data) {
-    for (const place of data) {
-        $.get('http://127.0.0.1:5001/api/v1/users/' + place.user_id, function (usrData) {
-        const html = `<article>
-<div class="title_box">
-<h2>${place.name}</h2>
-<div class="price_by_night">$${place.price_by_night}</div>
-</div>
-<div class="information">
-<div class="max_guest">${place.max_guest} Guests</div>
-<div class="number_rooms">${place.number_rooms} Bedrooms</div>
-<div class="number_bathrooms">${place.number_bathrooms} Bathrooms</div>
-</div>
-<div class="user">
-<b>Owner:</b> ${usrData.first_name} ${usrData.last_name}
-</div>
-<div class="description">
-${place.description}
-</div>
-</article>`;
-        $('.places').append(html);
-        });
-    }
-    }
+
+$(document).ready(function() {
+
+    // Your other event listeners and code...
+
+// Button click event
+$('section button[type="button"]').click(function() {
+    let amenityIds = [];
+    
+    $('div.amenities input:checked').each(function() {
+        amenityIds.push($(this).data('id'));
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:5001/api/v1/places_search',
+        data: JSON.stringify({'amenities': amenityIds}),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+        }
+    });
 });
 });
