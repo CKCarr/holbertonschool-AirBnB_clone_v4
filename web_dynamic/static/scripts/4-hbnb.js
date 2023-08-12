@@ -74,14 +74,16 @@ $('section button[type="button"]').click(function() {
     });
 
     $.ajax({
-        type: 'POST',
-        url: 'http://localhost:5001/api/v1/places_search',
-        data: JSON.stringify({'amenities': amenityIds}),
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function(data) {
-            console.log(data);
-        }
+    type: 'POST',
+    url: 'http://127.0.0.1:5001/api/v1/places_search',
+    data: JSON.stringify({'amenities': amenityIds}),
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+        // Handle the successful response, e.g., update the list of places
+        // For now, let's just log the response
+        console.log(data);
+    }
     });
 });
 });
