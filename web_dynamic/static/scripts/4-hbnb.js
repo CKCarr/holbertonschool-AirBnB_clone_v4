@@ -60,29 +60,36 @@ $.ajax({
         }
     }
 });
-$(document).ready(function() {
-// ... (keep the original contents of 3-hbnb.js)
-
-// Event listener for button click
-$('button').click(function() {
-    // Gather checked amenities
-    let amenityIds = [];
-    $('div.amenities input:checked').each(function() {
-    amenityIds.push($(this).data('id'));
-    });
-
-    // Send POST request to places_search
-    $.ajax({
+$('button').click(function () {
+$('.places > article').remove();
+$.ajax({
     type: 'POST',
-    url: 'http://0.0.0.0:5001/api/v1/places_search',
-    data: JSON.stringify({'amenities': amenityIds}),
+    url: 'http://127.0.0.1:5001/api/v1/places_search/',
+    data: JSON.stringify({ amenities: Object.keys(checkAmen) }),
     contentType: 'application/json',
-    dataType: 'json',
-    success: function(data) {
-        // Handle the successful response, e.g., update the list of places
-        // For now, let's just log the response
-        console.log(data);
+    success: function (data) {
+    for (const place of data) {
+        $.get('http://127.0.0.1:5001/api/v1/users/' + place.user_id, function (usrData) {
+        const html = `<article>
+<div class="title_box">
+<h2>${place.name}</h2>
+<div class="price_by_night">$${place.price_by_night}</div>
+</div>
+<div class="information">
+<div class="max_guest">${place.max_guest} Guests</div>
+<div class="number_rooms">${place.number_rooms} Bedrooms</div>
+<div class="number_bathrooms">${place.number_bathrooms} Bathrooms</div>
+</div>
+<div class="user">
+<b>Owner:</b> ${usrData.first_name} ${usrData.last_name}
+</div>
+<div class="description">
+${place.description}
+</div>
+</article>`;
+        $('.places').append(html);
+        });
     }
-    });
+    }
 });
 });
