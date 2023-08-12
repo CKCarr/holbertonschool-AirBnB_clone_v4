@@ -105,7 +105,7 @@ def places_search():
     for place in all_places:
         if (not states or place.city.state_id in states) and \
            (not cities or place.city_id in cities) and \
-           all(amenity_id in place.amenities_id for amenity_id in amenities):
+           all(amenity_id in place.amenities for amenity_id in amenities):
             search_results.append(place)
 
     return jsonify([place.to_dict() for place in search_results])

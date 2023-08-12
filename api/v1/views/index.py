@@ -10,7 +10,7 @@ from models import storage
 # that returns a JSON: "status": "OK"
 # to run <python3 -m api.v1.app>
 # http://0.0.0.0:5000/api/v1/status
-@app_views.route('/status', methods=['GET'])
+@app_views.route('/status/', methods=['GET'])
 def status():
     """ Returns a JSON: "status": "OK """
     return jsonify(status="OK")
