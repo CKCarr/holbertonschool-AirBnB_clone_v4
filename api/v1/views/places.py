@@ -109,4 +109,3 @@ def places_search():
             search_results.append(place)
 
     return jsonify([place.to_dict() for place in search_results])
-

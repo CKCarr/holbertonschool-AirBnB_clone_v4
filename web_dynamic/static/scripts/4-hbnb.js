@@ -1,6 +1,7 @@
 #!/usr/bin/node
 // Script that listen for changes on each input checkbox tag
 
+
 // This function ensures the DOM is fully loaded before executing the script
 $(document).ready(function() {
     const nameAmenity = [];
@@ -32,58 +33,49 @@ $(document).ready(function() {
         }
     });
 });
-// Execute a POST request to places_search API
-$.ajax({
-    type: "POST",
-    url: 'http://localhost:5001/api/v1/places_search/',
-    contentType: 'application/json',
-    data: '{}',
-    success: function (data) {
-        $('.places').empty(); // Clear existing places
-        for (const place of data) {
-            const placeHTML = `
-            <article>
-                <div class="title_box">
-                    <h2>${place.name}</h2>
-                    <div class="price_by_night">$${place.price_by_night}</div>
-                </div>
-                <div class="information">
-                    <div class="max_guest">${place.max_guest} Guests</div>
-                    <div class="number_rooms">${place.number_rooms} Bedrooms</div>
-                    <div class="number_bathrooms">${place.number_bathrooms} Bathrooms</div>
-                </div>
-                <div class="user">
-                    <div class="description">${place.description}</div>
-                </div>
-            </article>`;
-            $('.places').append(placeHTML);
-        }
-    }
-});
-
 $(document).ready(function() {
-
-    // Your other event listeners and code...
-
-// Button click event
-$('section button[type="button"]').click(function() {
-    let amenityIds = [];
-    
-    $('div.amenities input:checked').each(function() {
-        amenityIds.push($(this).data('id'));
-    });
-
-    $.ajax({
-    type: 'POST',
-    url: 'http://localhost:5001/api/v1/places_search',
-    data: JSON.stringify({'amenities': amenityIds}),
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function(data) {
-        // Handle the successful response, e.g., update the list of places
-        // For now, let's just log the response
-        console.log(data);
+    // Function to execute the POST request
+    function fetchPlaces(postData = '{}') {
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:5001/api/v1/places_search/',
+            contentType: 'application/json',
+            data: postData,
+            success: function (data) {
+                $('.places').empty(); // Clear existing places
+                for (const place of data) {
+                    const placeHTML = `
+                    <article>
+                        <div class="title_box">
+                            <h2>${place.name}</h2>
+                            <div class="price_by_night">$${place.price_by_night}</div>
+                        </div>
+                        <div class="information">
+                            <div class="max_guest">${place.max_guest} Guests</div>
+                            <div class="number_rooms">${place.number_rooms} Bedrooms</div>
+                            <div class="number_bathrooms">${place.number_bathrooms} Bathrooms</div>
+                        </div>
+                        <div class="user">
+                            <div class="description">${place.description}</div>
+                        </div>
+                    </article>`;
+                    $('.places').append(placeHTML);
+                }
+            }
+        });
     }
+
+    // Fetch places immediately after the page loads
+    fetchPlaces();
+
+    // Button click event
+    $('section button[type="button"]').click(function() {
+        let amenityIds = [];
+        
+        $('div.amenities input:checked').each(function() {
+            amenityIds.push($(this).data('id'));
+        });
+
+        fetchPlaces(JSON.stringify({'amenities': amenityIds}));
     });
-});
 });
