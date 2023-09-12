@@ -164,6 +164,8 @@ Jamie Toman
 Crystal Carrillo
 
 version v4:
+Crystal Carrillo
+Carlos Alarcon
 
 ## License
 Public Domain. No copy write protection. 
