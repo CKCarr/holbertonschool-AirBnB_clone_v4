@@ -163,7 +163,10 @@ version v3:
 Jamie Toman
 Crystal Carrillo
 
-version v4: Carlos Alarcon Crystal Carrillo
+
+version v4:
+Crystal Carrillo
+Carlos Alarcon
 
 ## License
 Public Domain. No copy write protection. 
